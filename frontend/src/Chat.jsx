@@ -48,7 +48,7 @@ const Chat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
- const askAI = async (inputOverride) => {
+  const askAI = async (inputOverride) => {
     const query = inputOverride || question;
     if (!query.trim()) return;
 
@@ -58,7 +58,7 @@ const Chat = () => {
 
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
-      const res = await fetch(`${backendUrl}/api/chat`, {  // ← backticks!
+      const res = await fetch(`${backendUrl}//api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: query }),
