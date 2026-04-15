@@ -183,37 +183,31 @@ app.post("/api/add", async (req, res) => {
 app.post("/api/chat", async (req, res) => {
   const { question } = req.body;
   try {
-    // Instruction required for mxbai-embed-large-v1 retrieval
     const queryPrefix = "Represent this sentence for searching relevant passages: ";
-    const embedding = await getEmbedding(queryPrefix + question);
+    const output = await embedder(queryPrefix + question, { pooling: "mean", normalize: true });
     
     const search = await index.query({
-      vector: embedding,
-      topK: 5, // Reduced from 100 to stay within LLM context limits
+      vector: Array.from(output.data),
+      topK: 100,
       includeMetadata: true
     });
 
-    const context = search.matches.map(m => {
-      // Ensure metadata fields match your Pinecone schema
-      return m.metadata.text || `Title: ${m.metadata.title}\nSummary: ${m.metadata.summary}`;
+    const context = search.matches.map(m =>{
+      return `Title: ${m.metadata.title}\nSummary: ${m.metadata.summary}`
     }).join("\n---\n");
+
+    console.log("Retrieved Context:", context);
 
     const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [
-        { 
-          role: "system", 
-          content: `You are a movie expert. Answer the user's question using ONLY the following context. If the answer is not in the context, say you don't know.\n\nContext:\n${context}`
-        },
+        { role: "system", 
+          content: `You are a movie expert. Answer the user's question using ONLY the following context:\n${context}`},
         { role: "user", content: question }
       ]
     });
-
     res.json({ answer: response.choices[0].message.content });
-  } catch (e) { 
-    console.error("Chat Error:", e);
-    res.status(500).json({ error: e.message }); 
-  }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 /* ---------------------------
