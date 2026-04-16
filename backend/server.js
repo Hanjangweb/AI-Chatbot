@@ -169,14 +169,15 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 //   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 // });
 
+// 2. The Catch-All (FIXED for Express 5/Node 22)
 app.get("*", (req, res) => {
-  // If the request is for an API but it reached here, it means the API route failed
-  if (req.path.startsWith('/api/')) {
+  // Use req.url instead of req.path for better compatibility
+  if (req.url.startsWith('/api')) {
     return res.status(404).json({ error: "API route not found" });
   }
-  // Otherwise, send the frontend app
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
+
 /* ---------------------------
     Server Start Logic
 --------------------------- */
