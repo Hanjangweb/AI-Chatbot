@@ -165,18 +165,10 @@ app.post("/api/chat", async (req, res) => {
 // --------------------------- */
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// app.get("*path", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
-// });
-
-// 2. The Catch-All (FIXED for Express 5/Node 22)
-app.get("*", (req, res) => {
-  // Use req.url instead of req.path for better compatibility
-  if (req.url.startsWith('/api')) {
-    return res.status(404).json({ error: "API route not found" });
-  }
+app.get("*path", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
+
 
 /* ---------------------------
     Server Start Logic
