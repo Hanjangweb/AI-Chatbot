@@ -179,4 +179,12 @@ app.listen(PORT, () => {
   console.log(`💡 Memory-optimized: Using Mixedbread API for embeddings.`);
 });
 
+// In your server.js, just call this once at the bottom temporaril
+// const values = Array.from({ length: 1024 }, () => 
+//   parseFloat((Math.random() * 2 - 1).toFixed(4))
+// ).join(", ");
+
+// console.log(values);
+// Copy the output!
+
 module.exports = app;
