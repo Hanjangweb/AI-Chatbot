@@ -160,15 +160,15 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-/* ---------------------------
-    Static Files & Routing
---------------------------- */
+ /* ---------------------------
+//     Static Files & Routing
+// --------------------------- */
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// FIX 3: Use a standard wildcard string for compatibility
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
+
 
 /* ---------------------------
     Server Start Logic
