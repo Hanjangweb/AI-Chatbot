@@ -129,11 +129,11 @@ const styles = {
     animation: "pulse 1.5s infinite" 
   },
   container: { display: "flex", justifyContent: "center", padding: "20px" },
-  mobileContainer: { display: "flex", width: "100%" },
+  mobileContainer: { display: "flex", width: "100%", background: "#fff" },
   chatBox: { width: "450px", height: "600px", background: "white", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", borderRadius: "16px", display: "flex", flexDirection: "column", overflow: "hidden" },
-  mobileChatBox: { width: "100%", height: "100vh", display: "flex", flexDirection: "column" },
+  mobileChatBox: { width: "100%", height: "100vh", display: "flex", flexDirection: "column", background: "#fff", color: "#000" },
   header: { padding: "15px 20px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between" },
-  title: { margin: 0, fontSize: "1.1rem" },
+  title: { margin: 0, fontSize: "1.1rem" , color: "#1f2937" },
   statusBadge: { color: "#10b981", fontSize: "0.8rem", fontWeight: "bold" },
   messages: { flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" },
 
@@ -141,12 +141,12 @@ const styles = {
   suggestionContainer: { marginTop: "40px", textAlign: "center" },
   suggestionTitle: { fontSize: "0.9rem", color: "#666", marginBottom: "12px" },
   chipWrapper: { display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" },
-  chip: { background: "#f3f4f6", border: "1px solid #e5e7eb", borderRadius: "20px", padding: "8px 14px", fontSize: "0.85rem", cursor: "pointer", transition: "all 0.2s" },
+  chip: { background: "#f3f4f6", border: "1px solid #e5e7eb", borderRadius: "20px", color: "#374151", padding: "8px 14px", fontSize: "0.85rem", cursor: "pointer", transition: "all 0.2s" },
 
   userBubble: { alignSelf: "flex-end", background: "#4f46e5", color: "white", padding: "10px 15px", borderRadius: "15px 15px 0 15px", maxWidth: "80%" },
   aiBubble: { alignSelf: "flex-start", background: "#f1f1f1", padding: "10px 15px", borderRadius: "15px 15px 15px 0", maxWidth: "80%" },
   inputArea: { padding: "15px", display: "flex", gap: "10px", background: "#f9fafb" },
-  input: { flex: 1, padding: "10px 15px", borderRadius: "20px", border: "1px solid #ccc", outline: "none" },
+  input: { background: "#ffffff",flex: 1, padding: "10px 15px", borderRadius: "20px", border: "1px solid #ccc", outline: "none" },
   button: { background: "#4f46e5", color: "white", border: "none", borderRadius: "20px", padding: "0 20px", cursor: "pointer" }
 };
 
