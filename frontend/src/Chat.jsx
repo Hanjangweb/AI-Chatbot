@@ -7,12 +7,8 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
 
   const loadingPhrases = [
-    "Scanning the film archives...",
     "Retrieving movie data...",
-    "Consulting the critics...",
     "Finding your perfect match...",
-    "Roll camera! Searching...",
-    "Checking the box office records..."
   ];
 
   const [currentPhrase, setCurrentPhrase] = useState(loadingPhrases[0]);
@@ -60,79 +56,79 @@ const Chat = () => {
     }
   };
 
-  return (
-    /* Main Container: Mobile = full screen, Desktop = centered with padding */
-    <div className="flex justify-center bg-gray-100 sm:py-8 h-dvh sm:h-screen">
+ return (
+  /* 1. Main Wrapper: h-dvh fills the mobile screen exactly, even with browser bars */
+  <div className="flex justify-center bg-gray-100 h-dvh w-full overflow-hidden sm:py-8">
+    
+    /* 2. Chat Box: On mobile it is 100% height. On desktop, it is 600px. */
+    <div className="flex flex-col w-full bg-white h-full overflow-hidden sm:w-[450px] sm:h-[600px] sm:rounded-2xl sm:shadow-2xl">
       
-      {/* Chat Box: Mobile = full height/width, Desktop = fixed size with shadow */}
-      <div className="flex flex-col w-full bg-white overflow-hidden sm:w-[450px] sm:h-[600px] sm:rounded-2xl sm:shadow-2xl">
-        
-        {/* Header: Fixed at top */}
-        <header className="flex-none px-5 py-4 border-b border-gray-100 bg-white">
-          <h2 className="text-lg font-bold text-gray-800">HanjangWeb Assistant!</h2>
-        </header>
+      {/* 3. Header: flex-none keeps it at the top */}
+      <header className="flex-none px-5 py-4 border-b border-gray-100 bg-white">
+        <h2 className="text-lg font-bold text-gray-800">HanjangWeb Assistant!</h2>
+      </header>
 
-        {/* Messages Area: Scrollable middle section */}
-        <main className="flex-1 overflow-y-auto p-5 flex flex-col gap-3 scroll-smooth touch-pan-y">
-          {messages.length === 0 && (
-            <div className="mt-10 text-center animate-fade-in">
-              <p className="text-sm text-gray-500 mb-4">Try asking about your movies:</p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {suggestions.map((text, i) => (
-                  <button
-                    key={i}
-                    onClick={() => askAI(text)}
-                    className="bg-gray-100 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors"
-                  >
-                    {text}
-                  </button>
-                ))}
-              </div>
+      {/* 4. Messages Area: flex-1 tells it to take all available space and scroll */}
+      <main className="flex-1 overflow-y-auto p-5 flex flex-col gap-3">
+        {messages.length === 0 && (
+          <div className="mt-10 text-center">
+            <p className="text-sm text-gray-500 mb-4">Try asking about your movies:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {suggestions.map((text, i) => (
+                <button
+                  key={i}
+                  onClick={() => askAI(text)}
+                  className="bg-gray-100 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+                >
+                  {text}
+                </button>
+              ))}
             </div>
-          )}
-
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
-                msg.type === "user"
-                  ? "self-end bg-indigo-600 text-white rounded-tr-none"
-                  : "self-start bg-gray-100 text-gray-800 rounded-tl-none"
-              }`}
-            >
-              {msg.text}
-            </div>
-          ))}
-
-          {loading && (
-            <div className="self-start bg-gray-100 px-4 py-2.5 rounded-2xl rounded-tl-none italic text-indigo-600 animate-pulse text-sm">
-              {currentPhrase}
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </main>
-
-        {/* Input Area: Fixed at bottom */}
-        <footer className="flex-none p-4 bg-gray-50 border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">
-          <div className="flex gap-2">
-            <input
-              className="flex-1 px-4 py-2 rounded-full border border-gray-300 bg-white outline-none focus:border-indigo-500 text-sm"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && askAI()}
-              placeholder="Ask about movies..."
-            />
-            <button
-              onClick={() => askAI()}
-              className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium hover:bg-indigo-700 active:scale-95 transition-all text-sm"
-            >
-              Send
-            </button>
           </div>
-        </footer>
-      </div>
+        )}
+
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm ${
+              msg.type === "user"
+                ? "self-end bg-indigo-600 text-white rounded-tr-none"
+                : "self-start bg-gray-100 text-gray-800 rounded-tl-none"
+            }`}
+          >
+            {msg.text}
+          </div>
+        ))}
+
+        {loading && (
+          <div className="self-start bg-gray-100 px-4 py-2.5 rounded-2xl rounded-tl-none italic text-indigo-600 animate-pulse text-sm">
+            {currentPhrase}
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </main>
+
+      {/* 5. Footer: flex-none ensures the Send button is ALWAYS visible at the bottom */}
+      <footer className="flex-none p-4 bg-gray-50 border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex gap-2">
+          <input
+            className="flex-1 px-4 py-2 rounded-full border border-gray-300 bg-white outline-none focus:border-indigo-500 text-sm text-black"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && askAI()}
+            placeholder="Ask about movies..."
+          />
+          <button
+            onClick={() => askAI()}
+            className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium hover:bg-indigo-700 active:scale-95 transition-all text-sm shrink-0"
+          >
+            Send
+          </button>
+        </div>
+      </footer>
     </div>
-  );
+  </div>
+);
 };
 
 export default Chat;
