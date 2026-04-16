@@ -129,13 +129,13 @@ const styles = {
     animation: "pulse 1.5s infinite" 
   },
   container: { display: "flex", justifyContent: "center", padding: "20px" },
-  mobileContainer: { display: "flex", width: "100%", background: "#fff" },
+  mobileContainer: { display: "flex", width: "100%", background: "#fff", height: "100vh", },
   chatBox: { width: "450px", height: "600px", background: "white", boxShadow: "0 10px 30px rgba(0,0,0,0.1)", borderRadius: "16px", display: "flex", flexDirection: "column", overflow: "hidden" },
-  mobileChatBox: {overflow: "hidden", borderRadius: "0px",  width: "100%", height: "100vh", display: "flex", flexDirection: "column", background: "#fff", color: "#000" },
+  mobileChatBox: {overflow: "hidden", borderRadius: "0px",  width: "100%", height: "100%", display: "flex", flexDirection: "column", background: "#fff", color: "#000", position: "relative" },
   header: { background: "white", flexShrink: 0, padding: "15px 20px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between" },
   title: { margin: 0, fontSize: "1.1rem" , color: "#1f2937" },
   statusBadge: { color: "#10b981", fontSize: "0.8rem", fontWeight: "bold" },
-  messages: { flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" },
+  messages: { flex: 1, overflowY: "auto", padding: "20px", display: "flex", flexDirection: "column", gap: "10px",WebkitOverflowScrolling: "touch" },
 
   // --- Suggestion Styles ---
   suggestionContainer: { marginTop: "40px", textAlign: "center" },
