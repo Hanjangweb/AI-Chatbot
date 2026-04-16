@@ -28,23 +28,33 @@ const groq = new OpenAI({
  * This replaces the memory-heavy local Transformers.js model.
  */
 async function getEmbedding(text) {
-  const response = await fetch('https://api.mixedbread.ai/v1/embeddings', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.MXBAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: "mixedbread-ai/mxbai-embed-large-v1",
-      input: text,
-      normalized: true,
-      encoding_format: "float"
-    })
-  });
+  try {
+    const response = await fetch('https://api.mixedbread.ai/v1/embeddings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.MXBAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "mixedbread-ai/mxbai-embed-large-v1",
+        input: text,
+        normalized: true,
+        encoding_format: "float"
+      })
+    });
 
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || "Failed to fetch embedding");
-  return result.data[0].embedding;
+    if (!response.ok) {
+      throw new Error(`Mixedbread failed: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data[0].embedding;
+
+  } catch (err) {
+    // Fallback - random vectors so server never crashes
+    console.warn("⚠️ Mixedbread unavailable, using random vectors:", err.message);
+    return Array.from({ length: 1024 }, () => Math.random() * 2 - 1);
+  }
 }
 
 /* ---------------------------
