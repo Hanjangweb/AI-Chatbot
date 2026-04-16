@@ -165,11 +165,18 @@ app.post("/api/chat", async (req, res) => {
 // --------------------------- */
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-app.get("/^(?!\/api).+/", (req, res) => {
+// app.get("*path", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+// });
+
+app.get("*", (req, res) => {
+  // If the request is for an API but it reached here, it means the API route failed
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: "API route not found" });
+  }
+  // Otherwise, send the frontend app
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
-
-
 /* ---------------------------
     Server Start Logic
 --------------------------- */
